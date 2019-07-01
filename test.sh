@@ -1,0 +1,1 @@
+curl -H "Content-Type: application/json" -X POST -d '{"birthdate":"0000-00-00 00:00:00","breed":"Maine Coon", "imageUrl":"http://google.com", "name": "Lis", "password":"1234", "username":"Fred", "weight": 2.1}' http://localhost:3000/cat/register
