@@ -39,10 +39,13 @@ app.post('/cat/register', function (req, res) {
           })
 });
 
-
+/**
+ * User logins in and receives auth token.
+ */
 app.post('/cat/login', function (req, res) {
     connection.query('SELECT password FROM cats WHERE `username`=? LIMIT 1', [req.body.username], function(error, results, fields){
-        if (results.length < 1) { res.send("No such username.\n"); }
+        if (error){ console.log("here4"); res.send(error.sqlMessage); }
+        else if (results && results.length < 1) {console.log("here4"); res.send("No such username.\n"); }
         else {
             //get the sha256 of this pass and compare it to the one from query
             username = req.body.username;
@@ -63,6 +66,9 @@ app.post('/cat/login', function (req, res) {
     })
 })
 
+/**
+ * User views cats with auth token.
+ */
 app.post('/cats', function (req, res) {
     whereClause = "";
     params = [];
@@ -137,6 +143,9 @@ app.post('/cats', function (req, res) {
     )
 })
 
+/**
+ * Returns a random cat without auth.
+ */
 app.post('/cats/random', function (req, res) {
     connection.query('SELECT `breed`, `image_url`, `name` FROM cats ORDER BY RAND() LIMIT 1',[], function(error, results){
         if (error) { res.send(error.sqlMessage);}
@@ -149,4 +158,5 @@ app.post('/cats/random', function (req, res) {
     })
 })
 
-app.listen(3000)
+console.log("App is ready.")
+app.listen(8081)
